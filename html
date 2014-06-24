@@ -11,8 +11,16 @@ function Deck() {
       }
     }
   }
+  this.shuffle = function(){
+    var m = this.cards.length, t, rand; 
+    while(m > 0) { 
+      rand = Math.floor(Math.random() * m--);
+      t = this.cards[m];
+      this.cards[m] = this.cards[rand];
+      this.cards[rand] = t;
+    }
+  }
 }
-
 function Card(rank, suit) {
   this.rank = rank;
   this.suit = suit;
@@ -51,6 +59,7 @@ function BlackJack(players, deck) {
   var pick, card, currentHand, dealerHand;
   this.players = players;
   this.deck = deck.cards;
+  deck.shuffle();
   this.hand = [];
   this.dealerHand = []
 
@@ -94,10 +103,7 @@ function BlackJack(players, deck) {
    if (dealerzHand > currentHand &&  dealerzHand <= 21) {
       console.log("Deal wins, you lose.")
    }
-   else {
-    console.log("you win!")
-   }
-  }
+ }
 
   this.dealer = function(hits) {
     for (i = 0; i < hits; i++) {
@@ -120,6 +126,9 @@ function BlackJack(players, deck) {
 
       if (sup == 'yes') {
          this.deal(1);
+         if (currentHand > 21) {
+      console.log("Busted, you lose!")
+    }
       }
       else {
         console.log("Maybe you'd be more comfortable at the bingo table?");
